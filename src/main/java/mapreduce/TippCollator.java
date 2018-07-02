@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class TippCollactor implements Collator<Map.Entry<String, List<Veranstaltung>>, List<Veranstaltung>> {
+public class TippCollator implements Collator<Map.Entry<String, List<Veranstaltung>>, List<Veranstaltung>> {
 
     Map<Veranstaltung, Integer> gewichteteGesamtliste = new HashMap<>();
     

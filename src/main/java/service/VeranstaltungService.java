@@ -8,7 +8,7 @@ import com.hazelcast.mapreduce.Job;
 import com.hazelcast.mapreduce.JobTracker;
 import com.hazelcast.mapreduce.KeyValueSource;
 import de.othr.vs.xml.Veranstaltung;
-import mapreduce.TippCollactor;
+import mapreduce.TippCollator;
 import mapreduce.TippMapper;
 import mapreduce.TippReducerFactory;
 
@@ -70,7 +70,7 @@ public class VeranstaltungService {
         ICompletableFuture<List<Veranstaltung>> future = job
                 .mapper(new TippMapper(Arrays.asList(suchwoerter)))
                 .reducer(new TippReducerFactory())
-                .submit(new TippCollactor());
+                .submit(new TippCollator());
 
 
         try {
