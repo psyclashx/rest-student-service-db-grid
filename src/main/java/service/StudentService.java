@@ -2,6 +2,7 @@ package service;
 
 import app.OTHRestException;
 import app.Server;
+import com.hazelcast.core.IAtomicLong;
 import com.hazelcast.core.ReplicatedMap;
 import de.othr.vs.xml.Adresse;
 import de.othr.vs.xml.Student;
@@ -18,6 +19,8 @@ import static app.Server.*;
 public class StudentService {
 
     static final String STUDENTS_MAP_NAME = "students";
+    static final IAtomicLong highestId = hazelcast.getAtomicLong("latest-student-id");
+
 
     @POST
     @Path("students")
@@ -37,10 +40,17 @@ public class StudentService {
                     s.getAnschrift().getStrasse() + "', '" +
                     s.getAnschrift().getOrt();
             statement.executeUpdate(query);
+            /*
+            // neue Matrikelnr über AUTO-INCREMENT-FEATURE der Datenbank
             ResultSet primaryKey = statement.getGeneratedKeys();
             primaryKey.first();
             int matrikelNr = primaryKey.getInt(1);
-            s.setMatrikelNr(matrikelNr);
+             */
+
+            // Zusatzfrage: Hazelcast-Datenstruktur für neue Matrikelnr.
+            // (kann aber im Testbetrieb zu "duplicate keys" in der Datenbank führen
+            long matrikelNr = highestId.incrementAndGet();
+            s.setMatrikelNr((int)matrikelNr);
 
             c.close();
 
