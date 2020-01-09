@@ -55,7 +55,7 @@ public class StudentService {
             c.close();
 
             // zusätzlich in Hazelcast data grid hinzufügen (für 5 Minuten)
-            students.put(matrikelNr, s, 5, TimeUnit.MINUTES);
+            students.put((int)matrikelNr, s, 5, TimeUnit.MINUTES);
 
             return s;
 
